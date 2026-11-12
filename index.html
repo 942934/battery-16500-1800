@@ -71,6 +71,28 @@ figcaption{font-size:.85rem; color:var(--muted); margin-top:6px;}
 .labelfig{max-width:420px;}
 .weefig{max-width:150px;}
 .weefig img{border:none;}
+.lang-bar{
+  position:sticky; top:0; z-index:50;
+  display:flex; gap:10px; align-items:center; justify-content:flex-end;
+  margin:0 -12px 12px; padding:8px 14px;
+  background:rgba(255,255,255,.94); backdrop-filter:blur(4px);
+  border-bottom:1px solid var(--line);
+}
+.lang-bar label{font-size:.85rem; color:var(--muted); font-weight:600;}
+.lang-bar select{
+  font:inherit; font-size:.9rem; padding:6px 10px; border-radius:8px;
+  border:1px solid var(--line); background:#fff; color:var(--ink); max-width:62vw;
+}
+.lang-note{
+  display:none; gap:10px; align-items:flex-start;
+  margin:0 0 14px; padding:10px 14px; border-radius:10px;
+  background:#fff8e1; border:1px solid #f0d060; color:#7a5b00; font-size:.92rem;
+}
+.lang-note.show{display:flex;}
+.lang-note button{
+  margin-left:auto; flex:0 0 auto; border:none; background:none;
+  font-size:1.05rem; line-height:1; cursor:pointer; color:#7a5b00; padding:0 2px;
+}
 .safety{list-style:none; counter-reset:safety;}
 .safety li{
   position:relative; padding:6px 0 6px 34px; font-size:.95rem;
@@ -90,6 +112,40 @@ footer{text-align:center; color:var(--muted); font-size:.85rem; padding:10px 0 0
 </head>
 <body>
 <div class="wrap">
+
+<div class="lang-bar">
+  <label for="lang-select">&#127760; Language</label>
+  <select id="lang-select">
+    <option value="en" selected>English</option>
+    <option value="bg">Български (Bulgarian)</option>
+    <option value="hr">Hrvatski (Croatian)</option>
+    <option value="cs">Čeština (Czech)</option>
+    <option value="da">Dansk (Danish)</option>
+    <option value="nl">Nederlands (Dutch)</option>
+    <option value="et">Eesti (Estonian)</option>
+    <option value="fi">Suomi (Finnish)</option>
+    <option value="fr">Français (French)</option>
+    <option value="de">Deutsch (German)</option>
+    <option value="el">Ελληνικά (Greek)</option>
+    <option value="hu">Magyar (Hungarian)</option>
+    <option value="ga">Gaeilge (Irish)</option>
+    <option value="it">Italiano (Italian)</option>
+    <option value="lv">Latviešu (Latvian)</option>
+    <option value="lt">Lietuvių (Lithuanian)</option>
+    <option value="mt">Malti (Maltese)</option>
+    <option value="pl">Polski (Polish)</option>
+    <option value="pt">Portugu&ecirc;s (Portuguese)</option>
+    <option value="ro">Rom&acirc;n&#259; (Romanian)</option>
+    <option value="sk">Sloven&#269;ina (Slovak)</option>
+    <option value="sl">Sloven&#353;&#269;ina (Slovenian)</option>
+    <option value="es">Espa&ntilde;ol (Spanish)</option>
+    <option value="sv">Svenska (Swedish)</option>
+  </select>
+</div>
+<div class="lang-note" id="lang-note">
+  <span id="lang-note-text"></span>
+  <button id="lang-note-close" aria-label="Close">&#10005;</button>
+</div>
 
 <header class="hero">
   <h1>Rechargeable Lithium&#8209;ion Cell 16500</h1>
@@ -298,5 +354,23 @@ footer{text-align:center; color:var(--muted); font-size:.85rem; padding:10px 0 0
 </footer>
 
 </div>
+<script>
+(function(){
+  var sel = document.getElementById('lang-select');
+  var note = document.getElementById('lang-note');
+  var txt = document.getElementById('lang-note-text');
+  sel.addEventListener('change', function(){
+    if (sel.value === 'en') { note.classList.remove('show'); return; }
+    var name = sel.options[sel.selectedIndex].text;
+    txt.textContent = 'The ' + name + ' version is under preparation. '
+      + 'This page is currently shown in English.';
+    note.classList.add('show');
+  });
+  document.getElementById('lang-note-close').addEventListener('click', function(){
+    note.classList.remove('show');
+    sel.value = 'en';
+  });
+})();
+</script>
 </body>
 </html>
